@@ -1,0 +1,7 @@
+{
+  "extends": ["plugin:adonis/typescriptApp", "prettier", "prettier/@typescript-eslint", "plugin:vue/vue3-essential"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": ["error"]
+  }
+}
