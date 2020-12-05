@@ -12,6 +12,8 @@ COPY . /home/node/app/
 
 RUN chown -R node:node /home/node
 
+RUN sudo apt-get install -y build-essential python
+
 RUN npm i
 
 USER node
