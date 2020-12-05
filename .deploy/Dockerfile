@@ -14,8 +14,13 @@ RUN apt-get update
 RUN apt-get install build-essential
 
 RUN npm i
+RUN node ace build
 
-USER node
+COPY .env.example ./.env
+
+RUN node ace generate:key
+RUN node ace build
+RUN node ace migration:run --force
 
 EXPOSE 80
 
