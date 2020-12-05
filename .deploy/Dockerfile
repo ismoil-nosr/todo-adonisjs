@@ -1,15 +1,21 @@
-FROM node:13.8.0-slim
+FROM node:lts-alpine
 
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
+RUN mkdir -p /home/node/app/node_modules
 
 WORKDIR /home/node/app
 
-COPY package*.json ./
-COPY ./.deploy/entrypoint.sh /
-COPY --chown=node:node . .
+COPY package.json yarn.* ./
+
+RUN apk add --no-cache git
+
+COPY . /home/node/app/
+
+RUN chown -R node:node /home/node
+
+RUN yarn
+
+USER node
 
 EXPOSE 80
 
-RUN chmod +x /entrypoint.sh
-
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+ENTRYPOINT ["node","ace","serve","--watch"]
