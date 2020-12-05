@@ -5,9 +5,6 @@ echo "🎬 entrypoint.sh"
 cp .env.example .env
 npm i
 
-echo "🎬 run production"
+echo "🎬 run "
 
-node ace build --production
-cd build/server
-npm i
-node server.jsd
+node ace serve --watch
