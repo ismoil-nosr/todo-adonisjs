@@ -5,14 +5,13 @@ RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
 WORKDIR /home/node/app
 
 COPY package*.json ./
-
-USER node
-
+COPY ./.deploy/entrypoint.sh /
 COPY --chown=node:node . .
 
 EXPOSE 80
 
-COPY ./.deploy/entrypoint.sh /
+USER node
+
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
