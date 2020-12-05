@@ -10,7 +10,8 @@ COPY . /home/node/app/
 
 RUN chown -R node:node /home/node
 
-RUN apt-get install -y build-essential python
+RUN sudo apt-get update
+RUN sudo apt-get install build-essential
 
 RUN npm i
 
