@@ -10,8 +10,6 @@ COPY --chown=node:node . .
 
 EXPOSE 80
 
-USER node
-
 RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
