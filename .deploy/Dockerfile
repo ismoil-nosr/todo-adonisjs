@@ -6,8 +6,6 @@ WORKDIR /home/node/app
 
 COPY package.json ./
 
-RUN apk add --no-cache git
-
 COPY . /home/node/app/
 
 RUN chown -R node:node /home/node
