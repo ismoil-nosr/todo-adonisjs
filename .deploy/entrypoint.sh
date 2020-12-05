@@ -3,6 +3,7 @@
 echo "🎬 entrypoint.sh"
 
 cp .env.example .env
+npm i
 
 echo "🎬 run production"
 
