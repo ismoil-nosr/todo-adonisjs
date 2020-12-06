@@ -11,8 +11,8 @@ RUN apt-get update && apt-get install -y build-essential cron curl locales zip u
 # Copy app dependencies
 COPY . .
 COPY package*.json ./
-COPY .env.example ./.env
-
+COPY .env.example .env
+RUN ls
 # Install dependencies
 RUN npm i
 RUN npm run-script build
@@ -21,7 +21,7 @@ RUN npm run-script build
 COPY --chown=www-data:www-data . $APP_PATH/
 RUN chown -R www-data:www-data $APP_PATH
 RUN chmod -R 775 $APP_PATH/public
-
+RUN ls
 # Set any ENVs
 ARG NODE_ENV=${NODE_ENV}
 ARG APP_KEY=${APP_KEY}
@@ -40,5 +40,5 @@ EXPOSE 80 443
 
 WORKDIR /home/node/app/build
 RUN npm ci --production
-
+RUN ls
 CMD [ "node" , "server.js"]
