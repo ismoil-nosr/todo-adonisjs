@@ -4,12 +4,14 @@ FROM node:13-alpine as builder
 RUN apk add --no-cache git
 RUN apk add --update python make g++\
    && rm -rf /var/cache/apk/*
+RUN apk --no-cache add --virtual builds-deps build-base python
 # Set directory for all files
 WORKDIR /home/node
 # Copy over package.json files
 COPY package*.json ./
 # Install all packages
 RUN npm install
+RUN npm rebuild bcrypt --build-from-source
 # Copy over source code
 COPY . .
 # Build AdonisJS for production
