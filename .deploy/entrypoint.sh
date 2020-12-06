@@ -1,5 +1,5 @@
 #!/bin/sh
-
+ls
 echo "🎬 entrypoint.sh"
 cp $APP_PATH/.env.example $APP_PATH/.env
 

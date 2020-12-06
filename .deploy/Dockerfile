@@ -9,12 +9,11 @@ WORKDIR /home/node/app
 RUN apt-get update && apt-get install -y build-essential cron curl locales zip unzip git python2
 
 # Copy app dependencies
-COPY package.json package.json
-COPY package-lock.json package-lock.json
+COPY . .
+COPY package*.json .
 
 # Install dependencies
 RUN npm i
-COPY ./node_modules $APP_PATH/node_modules
 
 # Copy app
 COPY --chown=www-data:www-data . $APP_PATH/
@@ -38,5 +37,7 @@ ARG MYSQL_DB_NAME=${MYSQL_DB_NAME}
 EXPOSE 80 443
 COPY ./.deploy/entrypoint.sh /
 RUN chmod +x /entrypoint.sh
+
+RUN ls
 
 ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
