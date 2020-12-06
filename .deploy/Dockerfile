@@ -27,9 +27,7 @@ ENV MYSQL_DB_NAME=${MYSQL_DB_NAME}
 RUN npm install
 COPY . .
 
-RUN key = node ace generate:key\
-key = "APP_KEY=${key}" \
-echo "${key}" >> .env
+RUN node ace generate:key
 
 RUN node ace build
 RUN node ace migration:run --force
