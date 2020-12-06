@@ -11,10 +11,12 @@ RUN apt-get update && apt-get install -y build-essential cron curl locales zip u
 # Copy app dependencies
 COPY . .
 COPY package*.json ./
-COPY .env.example ./
+COPY .env.example ./.env
 
 # Install dependencies
 RUN npm i
+RUN npm run-script build
+COPY $APP_PATH/.env $APP_PATH/build/.env
 
 # Copy app
 COPY --chown=www-data:www-data . $APP_PATH/
@@ -36,9 +38,8 @@ ARG MYSQL_DB_NAME=${MYSQL_DB_NAME}
 
 # Start app
 EXPOSE 80 443
-COPY ./.deploy/entrypoint.sh /
-RUN chmod +x /entrypoint.sh
 
-RUN ls
+WORKDIR /home/node/app/build
+RUN npm ci --production
 
-ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
+CMD [ "node" , "server.js"]
