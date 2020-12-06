@@ -12,12 +12,6 @@ RUN apt-get update && apt-get install -y build-essential cron curl locales zip u
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-# Install dependencies
-RUN npm i
-
-COPY node_modules node_modules
-COPY .env.example .env
-
 # Copy app
 COPY --chown=www-data:www-data . $APP_PATH/
 RUN chown -R www-data:www-data $APP_PATH
