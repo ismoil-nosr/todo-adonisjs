@@ -24,6 +24,9 @@ RUN npm run build --production
 FROM node:13-alpine as installer
 # Workaround
 RUN apk add --no-cache git
+RUN apk add --update python make g++\
+   && rm -rf /var/cache/apk/*
+RUN apk --no-cache add --virtual builds-deps build-base python
 # Set directory for all files
 WORKDIR /home/node
 # Copy over package.json files
