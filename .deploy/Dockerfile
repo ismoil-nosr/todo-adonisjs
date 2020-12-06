@@ -42,5 +42,6 @@ EXPOSE 80 443
 
 WORKDIR /home/node/app/build
 RUN npm ci --production
+RUN node ace migration:run
 
 CMD [ "node" , "server.js"]
