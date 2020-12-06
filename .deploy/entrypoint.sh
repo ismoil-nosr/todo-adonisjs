@@ -1,14 +1,11 @@
 #!/bin/sh
 
 echo "🎬 entrypoint.sh"
-npm i
-ls
+cp $APP_PATH/.env.example $APP_PATH/.env
 
-# cp $APP_PATH/.env.example $APP_PATH/.env
-
-# npm run-script build
-# cp $APP_PATH/.env $APP_PATH/build/.env
+npm run-script build
+cp $APP_PATH/.env $APP_PATH/build/.env
 
 echo "🎬 node commands"
 
-# node $APP_PATH/build/server.js
+node $APP_PATH/build/server.js

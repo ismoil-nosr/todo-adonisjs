@@ -14,9 +14,7 @@ COPY package-lock.json package-lock.json
 
 # Install dependencies
 RUN npm i
-RUN ls
-# COPY ./node_modules $APP_PATH/node_modules
-# COPY ./.env.example $APP_PATH/.env
+COPY ./node_modules $APP_PATH/node_modules
 
 # Copy app
 COPY --chown=www-data:www-data . $APP_PATH/
