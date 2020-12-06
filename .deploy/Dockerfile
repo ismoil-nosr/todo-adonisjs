@@ -68,7 +68,7 @@ COPY --from=builder /home/node/build ./build
 COPY --from=installer /home/node/node_modules ./node_modules
 # Copy over package.json files
 COPY package*.json ./
-
+RUN node ace generate:key
 # Expose port ${PORT} to outside world
 EXPOSE ${PORT}
 # Start server up
