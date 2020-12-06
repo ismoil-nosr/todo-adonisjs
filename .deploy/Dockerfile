@@ -42,6 +42,8 @@ EXPOSE 80 443
 
 WORKDIR /home/node/app/build
 RUN npm ci --production
-RUN node ace migration:run --force
 
-CMD [ "node" , "server.js"]
+COPY ./.deploy/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
