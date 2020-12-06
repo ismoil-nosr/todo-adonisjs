@@ -13,7 +13,6 @@ COPY package.json package.json
 COPY package-lock.json package-lock.json
 
 # Install dependencies
-RUN npm install -g npm@3
 RUN npm install
 
 RUN cp .env.example .env
