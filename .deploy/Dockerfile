@@ -1,7 +1,9 @@
 # Build AdonisJS
-FROM node:13-alpine as builder
+FROM node:10 as builder
 # Workaround for now, since bodyparser install relies on Git
 RUN apk add --no-cache git
+RUN apk add --update python make g++\
+   && rm -rf /var/cache/apk/*
 # Set directory for all files
 WORKDIR /home/node
 # Copy over package.json files
@@ -17,7 +19,7 @@ RUN npm run build --production
 # Install packages on different step,
 # since bodyparser install requires git
 # but runtime does not need it
-FROM node:13-alpine as installer
+FROM node:10 as installer
 # Workaround
 RUN apk add --no-cache git
 # Set directory for all files
@@ -29,7 +31,7 @@ RUN npm ci --only=production
 
 
 # Build final runtime container
-FROM node:13-alpine
+FROM node:10
 # Set environment variables
 ENV NODE_ENV=production
 ENV PORT=${PORT}
@@ -61,6 +63,7 @@ COPY --from=builder /home/node/build ./build
 COPY --from=installer /home/node/node_modules ./node_modules
 # Copy over package.json files
 COPY package*.json ./
+
 # Expose port ${PORT} to outside world
 EXPOSE ${PORT}
 # Start server up
