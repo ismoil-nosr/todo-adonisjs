@@ -6,14 +6,14 @@ ENV APP_PATH=/srv/app
 WORKDIR /home/node/app
 
 # Install system dependencies
-RUN apt-get update && apt-get install -y build-essential cron curl locales zip unzip git
+RUN apt-get update && apt-get install -y build-essential cron curl locales zip unzip git python2
 
 # Copy app dependencies
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
 # Install dependencies
-RUN npm install
+RUN npm i
 
 RUN cp .env.example .env
 
