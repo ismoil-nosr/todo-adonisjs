@@ -1,37 +1,42 @@
 # Build AdonisJS
-FROM node:13-alpine
+FROM node:lts-buster-slim
 
-RUN apk add --no-cache git
-RUN apk add --update python make g++\
-   && rm -rf /var/cache/apk/*
-RUN apk --no-cache add --virtual builds-deps build-base python
-RUN apk add --no-cache ffmpeg
-
-RUN mkdir -p /home/node/app/
 # Set working directory
+ENV APP_PATH=/srv/app
 WORKDIR /home/node/app
-COPY package*.json ./
-COPY .env.example ./.env
 
-ENV NODE_ENV=${NODE_ENV}
-ENV PORT=${PORT}
-ENV HOST=${HOST}
+# Install system dependencies
+RUN apt-get update && apt-get install -y build-essential cron curl locales zip unzip git
 
-ENV DB_CONNECTION=${DB_CONNECTION}
-ENV MYSQL_HOST=${MYSQL_HOST}
-ENV MYSQL_PORT=${MYSQL_PORT}
-ENV MYSQL_USER=${MYSQL_USER}
-ENV MYSQL_PASSWORD=${MYSQL_PASSWORD}
-ENV MYSQL_DB_NAME=${MYSQL_DB_NAME}
+# Copy app dependencies
+COPY package.json package.json
+COPY package-lock.json package-lock.json
 
-RUN npm install
-COPY . .
+# Install dependencies
+RUN npm install && npm cache clean --force --loglevel=error
+RUN cp .env.example .env
 
-RUN node ace generate:key
+# Copy app
+COPY --chown=www-data:www-data . $APP_PATH/
+RUN chown -R www-data:www-data $APP_PATH
+RUN chmod -R 775 $APP_PATH/public
 
-RUN node ace build
-RUN node ace migration:run --force
+# Set any ENVs
+ARG NODE_ENV=${NODE_ENV}
+ARG APP_KEY=${APP_KEY}
+ARG PORT=${PORT}
+ARG HOST=${HOST}
 
-EXPOSE 80
-# Start server up
-CMD [ "npm", "start", "build/server.js" ]
+ARG DB_CONNECTION=${DB_CONNECTION}
+ARG MYSQL_HOST=${MYSQL_HOST}
+ARG MYSQL_PORT=${MYSQL_PORT}
+ARG MYSQL_USER=${MYSQL_USER}
+ARG MYSQL_PASSWORD=${MYSQL_PASSWORD}
+ARG MYSQL_DB_NAME=${MYSQL_DB_NAME}
+
+# Start app
+EXPOSE 80 443
+COPY ./.deploy/entrypoint.sh /
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]
