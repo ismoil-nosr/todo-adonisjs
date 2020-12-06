@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y build-essential cron curl locales zip u
 
 # Copy app dependencies
 COPY . .
-COPY package*.json .
+COPY package*.json ./
 
 # Install dependencies
 RUN npm i
