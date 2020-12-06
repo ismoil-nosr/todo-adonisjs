@@ -1,0 +1,47 @@
+version: '3'
+
+networks:
+  expressjs:
+
+services:
+  site:
+    build:
+      context: .
+      dockerfile: ./.deploy/Dockerfile
+    restart: always
+    depends_on:
+      - mongodb
+    env_file: 
+      - .env
+    ports:
+      - "80:${PORT}"
+    networks:
+      - expressjs
+    environment:
+      NODE_ENV=${NODE_ENV}
+      PORT=${PORT}
+      HOST=${HOST}
+      DB_CONNECTION=${DB_CONNECTION}
+      MYSQL_HOST=${MYSQL_HOST}
+      MYSQL_PORT=${MYSQL_PORT}
+      MYSQL_USER=${MYSQL_USER}
+      MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      MYSQL_DB_NAME=${MYSQL_DB_NAME}
+    container_name: expressjs_todo
+
+  mongodb:
+    image: mongo
+    restart: always
+    tty: true
+    volumes:
+      - db_data:/var/lib/mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - expressjs
+    container_name: expressjs_todo_db
+volumes:
+    db_data:

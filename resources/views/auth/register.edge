@@ -1,0 +1,52 @@
+@layout('layout/auth') 
+
+@section('content')
+  <div class="container right-panel-active" id="container">
+      <div class="form-container sign-up-container">
+          <form method="POST" action="{{ route('register.post') }}">
+            {{ csrfField() }}
+              <h1>Create Account</h1>
+              <span>
+            <strong class="err-msg">
+              {{ flashMessages.get('errors.name') || '' }}
+            </strong>
+          </span>
+              <input type="text" name="name" placeholder="Name" value="{{ flashMessages.get('name') || '' }}" />
+
+              <span>
+              <strong class="err-msg">
+                {{ flashMessages.get('errors.email') || '' }}
+              </strong>
+          </span>
+              <input type="email" name="email" placeholder="Email" value="{{ flashMessages.get('email') || '' }}" />
+
+              <span>
+              <strong class="err-msg"> 
+                {{ flashMessages.get('errors.password') || '' }}
+              </strong>
+          </span>
+              <input type="password" name="password" placeholder="Password" value="{{ flashMessages.get('password') || '' }}" />
+
+              <span>
+            <strong class="err-msg"> 
+              {{ flashMessages.get('errors.password_confirmation') || '' }}
+            </strong>
+          </span>
+              <input type="password" name="password_confirmation" placeholder="Confirm password" />
+
+
+              <button type="submit">Sign Up</button>
+          </form>
+      </div>
+
+      <div class="overlay-container">
+          <div class="overlay">
+              <div class="overlay-panel overlay-left">
+                  <h1>Welcome Back!</h1>
+                  <p>To keep connected with us please login with your personal info</p>
+                  <button class="ghost" id="signIn" onclick="window.location='{{ route('login.get') }}';">Sign In</button>
+              </div>
+          </div>
+      </div>
+  </div>
+@endsection

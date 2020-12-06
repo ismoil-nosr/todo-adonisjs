@@ -1,0 +1,42 @@
+@layout('layout/auth')
+
+@section('content')
+	<div class="container" id="container">
+		<div class="form-container sign-in-container">
+      <form method="POST" action="{{ route('login.post') }}">
+        {{ csrfField() }}
+        
+				<h1>Sign in</h1>
+				<span>
+						<strong class="err-msg">{{ flashMessages.get('auth.errors.uid') || '' }}</strong>
+				</span>
+				<input type="email" name="email" placeholder="Email"  value="{{ flashMessages.get('email') || ''}}"/>
+        
+				<span>
+						<strong class="err-msg">{{ flashMessages.get('auth.errors.password') || '' }}</strong>
+				</span>
+				<input type="password" name="password" placeholder="Password" value="{{ flashMessages.get('password') || ''}}"/>
+        
+				<span>
+					<input class="form-check-input" type="checkbox" name="remember" id="remember" {{ flashMessages.get('remember') ? 'checked' : '' }}>
+					<label class="form-check-label" for="remember">
+						Remember me
+					</label>
+				</span>
+
+				<a href="#">Forgot your password?</a>
+				<button type="submit">Sign In</button>
+			</form>
+		</div>
+
+		<div class="overlay-container">
+			<div class="overlay">
+				<div class="overlay-panel overlay-right">
+					<h1>Hello, Friend!</h1>
+					<p>Enter your personal details and start journey with us</p>
+					<button class="ghost" id="signUp"  onclick="window.location='{{ route('register.get') }}';">Sign Up</button>
+				</div>
+			</div>
+		</div>
+	</div>
+@endsection
