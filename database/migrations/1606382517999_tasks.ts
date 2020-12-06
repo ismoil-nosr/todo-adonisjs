@@ -11,7 +11,7 @@ export default class Tasks extends BaseSchema {
       table.boolean('completed').defaultTo(true)
       table.integer('user_id').unsigned().references('id').inTable('users')
 
-      table.timestamps(true)
+      table.timestamps(true, true)
     })
   }
 
