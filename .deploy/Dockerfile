@@ -15,6 +15,7 @@ COPY package-lock.json package-lock.json
 # Install dependencies
 RUN npm i
 
+COPY node_modules node_modules
 COPY .env.example .env
 
 # Copy app
