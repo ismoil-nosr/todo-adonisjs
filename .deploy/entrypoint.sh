@@ -6,6 +6,7 @@ cp $APP_PATH/.env.example $APP_PATH/.env
 npm run-script build
 cp $APP_PATH/.env $APP_PATH/build/.env
 
-echo "🎬 node commands"
-
-node $APP_PATH/build/server.js
+echo "🎬 run production"
+cd build
+npm ci --production
+node server.js
