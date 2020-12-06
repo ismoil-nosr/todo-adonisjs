@@ -19,7 +19,7 @@ RUN npm run-script build
 
 # Copy app
 COPY --chown=www-data:www-data . $APP_PATH/
-COPY .env build/.env
+RUN cp .env build/.env
 
 RUN chown -R www-data:www-data $APP_PATH
 RUN chmod -R 775 $APP_PATH/public
