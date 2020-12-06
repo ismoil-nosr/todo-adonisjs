@@ -11,12 +11,11 @@ RUN apt-get update && apt-get install -y build-essential cron curl locales zip u
 # Copy app dependencies
 COPY . .
 COPY package*.json ./
-COPY .env.example $APP_PATH/.env
+COPY .env.example ./.env
 
 # Install dependencies
 RUN npm i
 RUN npm run-script build
-COPY $APP_PATH/.env $APP_PATH/build/.env
 
 # Copy app
 COPY --chown=www-data:www-data . $APP_PATH/
